@@ -9,4 +9,4 @@ Liderada por profissionais com mais de 15 anos de mercado, trabalhando com os si
 
 Entre em contato: contato@enkel.com.br
 
-{% asset_img logo_vertical_preto_big.png %}
+![](/images/logo_vertical_preto_big.png)
