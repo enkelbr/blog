@@ -1,7 +1,9 @@
 ---
 title: Smiles - Infrastructure as Code usando AWS + Oracle Service Bus
 date: 2019-08-28 13:58:57
-tags: Case Study
+tags:
+- Case Study
+- Smiles
 ---
 ​
 Nós ajudamos a [Smiles](https://www.smiles.com.br) a automatizar todo o processo de gerenciamento da infraestrutura dos seus [OSB](https://www.oracle.com/middleware/technologies/service-bus.html) usando [Chef](https://www.Chef.io/) com [AWS OpsWorks](https://aws.amazon.com/opsworks/) e [AWS CloudFormation](https://aws.amazon.com/cloudformation/).
