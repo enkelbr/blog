@@ -32,5 +32,6 @@ before_script:
 - git config --global user.email 'ci@enkel.com.br'
 
 script:
-- git remote add origin https://${GH_TOKEN}@github.com/enkelbr/blog.git
+- envsubst < _config.yml > config.yml
+- mv config.yml _config.yml
 - hexo deploy -g

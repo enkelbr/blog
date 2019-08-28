@@ -79,7 +79,7 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:enkelbr/blog.git
+  repo: https://${GH_TOKEN}@github.com/enkelbr/blog.git
   branch: gh-pages
   name: Enkel Publisher
   email: blog@enkel.com.br
