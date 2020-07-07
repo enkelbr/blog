@@ -6,7 +6,7 @@ tags:
 - Smiles
 ---
 ​
-A [Smiles](https://www.smiles.com.br) tinha um problema recorrente com deploys em produção feitos indevidamente, para isso desenvolvemos uma solução para controlar as execuções de alterações em produção.
+A [Smiles](https://www.smiles.com.br) apresentou a necessidade de que, todo e qualquer deploy que fosse realizado em seu ambiente produtivo, fosse devidamente aprovado por algum responsável adicional, que não o seu executor, para fins de maior controle e governança do ambiente.
 
 Para isso foi necessário o desenvolvimento de um mecanismo de fácil manutenção e simples de operar, foi aí que desenvolvemos um sistema usando API Gateway, Lambda e com banco em DynamoDB, enviando mensagem no Slack do cliente com opções de aprovação de execuções.
 ​
