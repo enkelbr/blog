@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Smiles - Infrastructure as Code usando AWS + Oracle Service Bus | Enkel Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="​Nós ajudamos a Smiles a automatizar todo o processo de gerenciamento da infraestrutura dos seus OSB usando Chef com AWS OpsWorks e AWS CloudFormation.​ Cliente​A Smiles é um dos maiores programas de">
+<meta name="keywords" content="Case Study,Smiles">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Smiles - Infrastructure as Code usando AWS + Oracle Service Bus">
+<meta property="og:url" content="https://blog.enkel.com.br/2019/08/28/Smiles_OSB/index.html">
+<meta property="og:site_name" content="Enkel Blog">
+<meta property="og:description" content="​Nós ajudamos a Smiles a automatizar todo o processo de gerenciamento da infraestrutura dos seus OSB usando Chef com AWS OpsWorks e AWS CloudFormation.​ Cliente​A Smiles é um dos maiores programas de">
+<meta property="og:locale" content="pt">
+<meta property="og:image" content="https://blog.enkel.com.br/2019/08/28/Smiles_OSB/osb.svg">
+<meta property="og:updated_time" content="2021-05-11T02:15:37.547Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Smiles - Infrastructure as Code usando AWS + Oracle Service Bus">
+<meta name="twitter:description" content="​Nós ajudamos a Smiles a automatizar todo o processo de gerenciamento da infraestrutura dos seus OSB usando Chef com AWS OpsWorks e AWS CloudFormation.​ Cliente​A Smiles é um dos maiores programas de">
+<meta name="twitter:image" content="https://blog.enkel.com.br/2019/08/28/Smiles_OSB/osb.svg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Enkel Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.enkel.com.br"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Smiles_OSB" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/28/Smiles_OSB/" class="article-date">
+  <time datetime="2019-08-28T16:58:57.000Z" itemprop="datePublished">2019-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Smiles - Infrastructure as Code usando AWS + Oracle Service Bus
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​<br>Nós ajudamos a <a href="https://www.smiles.com.br" target="_blank" rel="noopener">Smiles</a> a automatizar todo o processo de gerenciamento da infraestrutura dos seus <a href="https://www.oracle.com/middleware/technologies/service-bus.html" target="_blank" rel="noopener">OSB</a> usando <a href="https://www.Chef.io/" target="_blank" rel="noopener">Chef</a> com <a href="https://aws.amazon.com/opsworks/" target="_blank" rel="noopener">AWS OpsWorks</a> e <a href="https://aws.amazon.com/cloudformation/" target="_blank" rel="noopener">AWS CloudFormation</a>.<br>​</p>
+<h3 id="Cliente"><a href="#Cliente" class="headerlink" title="Cliente"></a>Cliente</h3><p>​A Smiles é um dos maiores programas de fidelidade do Brasil, com 16 milhões de participantes em março de 2019. Criado há 25 anos como programa de relacionamento da Varig, foi posteriormente adquirido pela GOL e em 2013 se tornou uma empresa independente, com a captação de R$ 1,1 bilhão com oferta pública inicial (IPO).<br>​<br>O programa de fidelidade é conhecido pela inovação e pioneirismo com o lançamento produtos e serviços lançados desde 2013, como Clube Smiles, Viaje Fácil e Conta Família. A companhia também tem a maior validade de milhas do mercado, que vão de 3 a 10 anos, de acordo com a categoria do cliente.<br>​</p>
+<h3 id="Desafio"><a href="#Desafio" class="headerlink" title="Desafio"></a>Desafio</h3><p>O escopo do projeto foi a migração de versão do produto Oracle Service Bus(OSB) para a versão 12.2.1.3, contemplando os requisitos abaixo:</p>
+<ol>
+<li>Infra as Code.</li>
+<li>Immutable Configuration.</li>
+<li>Auto Scaling em momento de maior troughput.</li>
+<li>Job no Rundeck para a criação do ambiente, onde qualquer analista de infra poderia lançar um ambiente.<br>​</li>
+</ol>
+<p>O projeto foi desafiador devido à complexidade do produto e de precisarmos de um processo 100% automático, onde não poderiam ter intervenções humanas uma vez que o job no Rundeck fosse executado.<br>​</p>
+<h3 id="Solucao"><a href="#Solucao" class="headerlink" title="Solução"></a>Solução</h3><p>​O provisionamento da infra-estrutura foi desenvolvido com AWS CloudFormation.<br>A instalação e configuração do dominio OSB, foi efetuado via Chef, utilizando scripts WSLT como apoio.<br>O domínio OSB foi configurado utilizando Dynamic Cluster, para que fosse possivel fazer o auto scaling de forma dinamica e sem intervenção humana.<br>​<br>Utilizamos as seguintes ferramentas para atender os requisitos:</p>
+<ol>
+<li>Chef:<ul>
+<li>Recipes</li>
+<li>Roles</li>
+<li>Data bag</li>
+<li>Environment<br>​</li>
+</ul>
+</li>
+<li>WLST:<ul>
+<li>Dominio</li>
+<li>Data Sources</li>
+<li>JMS</li>
+<li>Adapters</li>
+<li>Realm</li>
+<li>Coherence<br>​</li>
+</ul>
+<ol start="3">
+<li>Rundeck</li>
+</ol>
+<ul>
+<li>Jobs em Bash (automação da execução de CloudFormation)</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li>AWS:<ul>
+<li>OpsWorks</li>
+<li>CloudFormation</li>
+<li>EC2</li>
+<li>Auto Scaling Group</li>
+<li>Application Load Balancer</li>
+<li>Route53</li>
+<li>IAM</li>
+</ul>
+</li>
+</ol>
+<img src="/2019/08/28/Smiles_OSB/osb.svg">
+
+<h3 id="Resultados"><a href="#Resultados" class="headerlink" title="Resultados"></a>Resultados</h3><p>Com a entrega deste projeto, toda a infra-estrutura de OSB agora é gerenciada via código, tendo benefícios como:</p>
+<ul>
+<li>Redução no tempo de provisionamento de ambientes</li>
+<li>Garantia de equalidade na configuração entre os ambientes</li>
+<li>Auto-scaling para garantir resiliência em produção</li>
+<li>Eliminação de falhas humanas no processo de provisionamento de ambientes</li>
+<li>Redução de gastos com recursos humanos no provisionamento de ambientes</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.enkel.com.br/2019/08/28/Smiles_OSB/" data-id="ckojekud200011iq1fe4zcgo2" class="article-share-link">Compartilhar</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Case-Study/">Case Study</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Smiles/">Smiles</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/06/Deploy_Checker/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Mais Recente</strong>
+      <div class="article-nav-title">
+        
+          Smiles - Controlando os deploy em produção com AWS e Slack
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/28/Welcome/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Mais Antigo</strong>
+      <div class="article-nav-title">Hello, world!</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Case-Study/">Case Study</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Enkel/">Enkel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smiles/">Smiles</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuvem de Tags</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Case-Study/" style="font-size: 20px;">Case Study</a> <a href="/tags/Enkel/" style="font-size: 10px;">Enkel</a> <a href="/tags/Smiles/" style="font-size: 20px;">Smiles</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Arquivos</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">julho 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">agosto 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Postagens Recentes</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/06/Deploy_Checker/">Smiles - Controlando os deploy em produção com AWS e Slack</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/Smiles_OSB/">Smiles - Infrastructure as Code usando AWS + Oracle Service Bus</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/28/Welcome/">Hello, world!</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Enkel<br>
+      Desenvolvido por <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
